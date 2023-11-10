@@ -139,8 +139,8 @@ const page: FC<ChatPageProps> = async ({ params }: ChatPageProps) => {
 
 
   return (
-    <div className="flex flex-1 justify-between flex-col h-full max-h-[calc(100vh-2rem)]">
-      <div className="flex sm:items-center justify-between py-6 border-b-[0.1px] border-gray-700 px-8">
+    <div className="flex flex-1 justify-between flex-col h-full md:max-h-[calc(100vh-2rem)] max-h-[calc(100vh-1rem)]">
+      <div className="flex sm:items-center justify-between md:py-6 pb-2 border-b-[0.1px] border-gray-700 md:px-8 px-4">
         <div className="relative flex items-center space-x-4">
           <div className="relative">
             <div className="relative w-8 h-8 sm:w-12 sm:h-12">
@@ -154,7 +154,7 @@ const page: FC<ChatPageProps> = async ({ params }: ChatPageProps) => {
             </div>
           </div>
           <div className="flex flex-col leading-tight">
-            <div className="text-xl flex items-center">
+            <div className="md:text-xl flex items-center">
               <span className="text-primary mr-3 font-semibold truncate">
                 {chatpartner?.name}
               </span>

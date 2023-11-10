@@ -29,7 +29,7 @@ const ChatInput: FC<ChatInputProps> = ({ session, chatPartner, chatId }) => {
 
       const res = await axios.post("/api/message/send", {
         ...message,
-        chatPartner
+        chatPartner,
       });
 
       if (res.status === 200) {
@@ -40,7 +40,7 @@ const ChatInput: FC<ChatInputProps> = ({ session, chatPartner, chatId }) => {
       console.log(error);
 
       if (error instanceof Error) {
-        console.log('Something went wrong');
+        console.log("Something went wrong");
       }
     } finally {
       setLoading(false);
@@ -65,10 +65,18 @@ const ChatInput: FC<ChatInputProps> = ({ session, chatPartner, chatId }) => {
             setInput(e.target.value);
           }}
           placeholder={`Message ${chatPartner?.name}`}
-          className="block w-full pl-4 resize-none border-0 bg-transparent text-gray-50 placeholder-gray-50  sm:text-sm sm:leading-6 sm:py-1.5"
+          className="block w-full pl-4 resize-none border-0 bg-transparent text-gray-50 placeholder-gray-50 sm:text-sm sm:leading-6 sm:py-1.5"
         />
+        <div
+          onClick={() => textareaRef.current?.focus()}
+          className="py-2"
+          aria-hidden="true"
+        >
+          <div className="py-px">
+            <div className="h-9" />
+          </div>
+        </div>
 
-        
         <div className="absolute right-0 bottom-0 flex justify-between pl-3">
           <div className="flex-shrink-0">
             <Button

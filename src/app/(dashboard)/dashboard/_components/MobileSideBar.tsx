@@ -15,7 +15,7 @@ type MobileSideBarProps = {
 
 const MobileSideBar: FC<MobileSideBarProps> = ({children}) => {
   return (
-    <div className="fixed top-0 inset-x-0 py-2 px-4 flex">
+    <div className="fixed top-0 inset-x-0 py-2 px-4">
       <Sheet key={'left'}>
         <SheetTrigger asChild>
           <div className="w-full flex justify-between items-center">

@@ -15,14 +15,14 @@ export default function RootLayout({
   return (
     <div className="w-full flex h-screen">
       <div className="md:hidden">
-        <MobileSideBar>
+        <MobileSideBar >
           <SideBar classname="border-none" isMobile={true} />
         </MobileSideBar>
       </div>
 
       <SideBar classname="hidden md:flex" />
 
-      <aside className="max-h-screen w-full">{children}</aside>
+      <aside className="max-h-screen w-full max-sm:pt-[4.5rem]">{children}</aside>
     </div>
   );
 }
