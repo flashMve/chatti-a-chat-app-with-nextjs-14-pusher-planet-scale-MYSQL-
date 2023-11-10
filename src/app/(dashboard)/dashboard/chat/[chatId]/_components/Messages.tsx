@@ -40,7 +40,7 @@ const Messages: FC<MessagesProps> = ({
     };
 
     pusherClient.bind(
-      pusherSubscriptionKey(`new-message`),
+      pusherSubscriptionKey(`private-new-message`),
       onMessageHandler
     );
 

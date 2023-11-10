@@ -37,7 +37,20 @@ const FriendRequestOption: FC<FriendRequestOptionProps> = ({
       setUnSeenRequestsCount((prev) => prev + 1)
     }
 
+    pusherClient.subscribe(
+      pusherSubscriptionKey(`user-${sessionId}-friend-request-accepted`)
+    );
+
+    const onFriendRequestAcceptedHandler = (data: any) => {
+      setUnSeenRequestsCount((prev) => prev - 1)
+    };
+
     pusherClient.bind(pusherSubscriptionKey("incomming-friend-request"), friendRequestHandler)
+
+    pusherClient.bind(
+      pusherSubscriptionKey(`friend-request-accepted`),
+      onFriendRequestAcceptedHandler
+    );
 
     return () => {
       pusherClient.unsubscribe(pusherSubscriptionKey(`incomming-friend-request--${sessionId}`))

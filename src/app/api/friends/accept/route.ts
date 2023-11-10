@@ -18,7 +18,7 @@ export async function POST(req: Request) {
     }
 
     const {
-      user: { id: userId, email: userEmail,name },
+      user: { id: userId, email: userEmail, name },
     } = session;
 
     const friend: User | null = await prismaDb.user.findFirst({
@@ -39,45 +39,83 @@ export async function POST(req: Request) {
 
     // Valid friend request
 
-    const addFriend = await prismaDb.friends.create({
-      data: {
-        friendId: friend.id,
-        userId: userId,
-      },
-    });
-
-    // connect friend
-
-    const deleteFriendRequest = await prismaDb.user.update({
-      where: {
-        id: userId,
-      },
-      data: {
-        incommingFriendRequests: {
-          delete: {
-            fromId_toId: {
-              fromId: userId,
-              toId: friend.id,
+    await Promise.all([
+      prismaDb.friends.create({
+        data: {
+          friendId: friend.id,
+          userId: userId,
+        },
+      }),
+      prismaDb.user.update({
+        where: {
+          id: userId,
+        },
+        data: {
+          incommingFriendRequests: {
+            delete: {
+              fromId_toId: {
+                fromId: userId,
+                toId: friend.id,
+              },
             },
           },
         },
-      },
-    });
+      }),
+      pusherServer.trigger(
+        pusherSubscriptionKey(`user-${friend.id}-friend-request-accepted`),
+        pusherSubscriptionKey(`friend-request-accepted`),
+        {
+          message: `${name} accepted your friend request`,
+          username: name,
+          friend,
+        }
+      ),
+    ]);
 
-    pusherServer.trigger(
-      pusherSubscriptionKey(`user-${friend.id}-friend-request-accepted`),
-      pusherSubscriptionKey(`friend-request-accepted`),
+    // const addFriend = await prismaDb.friends.create({
+    //   data: {
+    //     friendId: friend.id,
+    //     userId: userId,
+    //   },
+    // });
+
+    // // connect friend
+
+    // const deleteFriendRequest = await prismaDb.user.update({
+    //   where: {
+    //     id: userId,
+    //   },
+    //   data: {
+    //     incommingFriendRequests: {
+    //       delete: {
+    //         fromId_toId: {
+    //           fromId: userId,
+    //           toId: friend.id,
+    //         },
+    //       },
+    //     },
+    //   },
+    // });
+
+    // pusherServer.trigger(
+    //   pusherSubscriptionKey(`user-${friend.id}-friend-request-accepted`),
+    //   pusherSubscriptionKey(`friend-request-accepted`),
+    //   {
+    //     message: `${name} accepted your friend request`,
+    //     username: name,
+    //     friend,
+    //   }
+    // );
+
+    return new Response(
+      JSON.stringify({
+        friendId: friend.id,
+        userId: userId,
+      }),
       {
-
-        message: `${name} accepted your friend request`,
-        username: name,
-        friend,
+        status: 200,
       }
     );
-
-    return new Response(JSON.stringify(addFriend), {
-      status: 200,
-    });
   } catch (e) {
     console.log(e);
     return new Response("Something went wrong", {

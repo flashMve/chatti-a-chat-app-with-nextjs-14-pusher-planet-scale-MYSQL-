@@ -1,18 +1,21 @@
 import prismaDb from "@/lib/db";
 import getSession from "@/lib/getServerSession";
-import { Chat, Message } from "@/lib/message";
+import { Message } from "@/lib/message";
 import Image from "next/image";
 import { notFound } from "next/navigation";
 import { FC } from "react";
 import Messages from "./_components/Messages";
 import ChatInput from "./_components/ChatInput";
 import { ChatURLContructor } from "@/helpers/chatURLConstructor";
+import { revalidateTag } from "next/cache";
 
 interface ChatPageProps {
   params: {
     chatId: string;
   };
 }
+const revalidate = 0
+
 
 const getMessages = async (chatId: string) => {
   try {
@@ -108,8 +111,6 @@ const page: FC<ChatPageProps> = async ({ params }: ChatPageProps) => {
   const { chatId } = params;
   const session = await getSession();
 
-
-
   if (!session) notFound();
 
   const [userId1, userId2] = chatId.split("--");
@@ -179,5 +180,6 @@ const page: FC<ChatPageProps> = async ({ params }: ChatPageProps) => {
     </div>
   );
 };
+
 
 export default page;

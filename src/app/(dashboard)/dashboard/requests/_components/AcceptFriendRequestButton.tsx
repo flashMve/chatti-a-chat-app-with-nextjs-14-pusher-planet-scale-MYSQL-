@@ -30,8 +30,8 @@ const AcceptFriendRequestButton: FC<z.infer<typeof AcceptFriendValidator>> = ({
           description: "You are now friends",
           variant: "success"
         });
-        router.refresh();
       }
+      router.refresh();
     } catch (error) {
       if(error instanceof AxiosError){
         toast.toast({

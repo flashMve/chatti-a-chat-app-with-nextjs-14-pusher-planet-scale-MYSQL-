@@ -96,6 +96,7 @@ const SidebarChatList: FC<SidebarChatListProps> = ({
           );
           id.dismiss();
         },
+        className:'cursor-pointer',
         title: `${data.message}`,
         description: `You can now chat with ${data.username}`,
         duration: 5000,
@@ -139,7 +140,7 @@ const SidebarChatList: FC<SidebarChatListProps> = ({
 
   return (
     <ul role="list" className="max-h-[25rem] overflow-y-auto -mx-2 space-y-1">
-      {friends.map((friend) => {
+      {friends?.map((friend) => {
         const unseenMessagesCount: number = unseenMessages.filter(
           (message) => message.senderId === friend.friend.id
         ).length;

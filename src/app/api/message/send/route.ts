@@ -47,7 +47,7 @@ export async function POST(req: Request) {
 
     pusherServer.trigger(
       pusherSubscriptionKey(`private-chat-${chatId}`),
-      pusherSubscriptionKey(`new-message`),
+      pusherSubscriptionKey(`private-new-message`),
       messageToSend
     );
 

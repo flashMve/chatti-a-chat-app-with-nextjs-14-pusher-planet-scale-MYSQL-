@@ -29,8 +29,8 @@ const DeclineFriendRequestButton: FC<z.infer<typeof DeclineFriendValidator>> = (
           description: "You have declined a friend request.",
           variant: "success"
         });
-        router.refresh();
       }
+      router.refresh();
 
     } catch (error) {
         if(error instanceof AxiosError){
